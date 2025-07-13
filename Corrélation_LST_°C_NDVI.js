@@ -1,14 +1,14 @@
 // 1. Définir la zone d'étude
 var regionOrientale = ee.FeatureCollection("projects/oubdils/assets/zone_jerda");
 
-// 2. Chargement des données MODIS LST (°C) et NDVI
+// 2. Chargement des données MODIS LST (°C) et NDVI sur 2004–2024
 var modisLST = ee.ImageCollection("MODIS/061/MOD11A2")
-  .filterDate('1984-01-01', '2024-01-31')
+  .filterDate('2004-01-01', '2024-01-31')
   .filterBounds(regionOrientale)
   .select('LST_Day_1km');
 
 var modisNDVI = ee.ImageCollection("MODIS/061/MOD13A2")
-  .filterDate('1984-01-01', '2024-01-31')
+  .filterDate('2004-01-01', '2024-01-31')
   .filterBounds(regionOrientale)
   .select('NDVI');
 
@@ -45,7 +45,7 @@ var echantillon = imageComposite.sample({
 var chart = ui.Chart.feature.byFeature(echantillon, 'LST_C', ['NDVI'])
   .setChartType('ScatterChart')
   .setOptions({
-    title: 'Corrélation LST (°C) - NDVI - 1984 to 2024',
+    title: 'Corrélation LST (°C) - NDVI (2004–2024)',
     hAxis: {title: 'LST (°C)'},
     vAxis: {title: 'NDVI'},
     pointSize: 3,
@@ -125,7 +125,7 @@ print(histoNDVI);
 // 10. Exportation
 Export.image.toDrive({
   image: lstRegion,
-  description: 'LST_Celsius_RegionOrientale_2024_01',
+  description: 'LST_Celsius_RegionOrientale_2004_2024',
   scale: 1000,
   region: regionOrientale.geometry(),
   fileFormat: 'GeoTIFF',
@@ -134,7 +134,7 @@ Export.image.toDrive({
 
 Export.image.toDrive({
   image: ndviRegion,
-  description: 'NDVI_RegionOrientale_2024_01',
+  description: 'NDVI_RegionOrientale_2004_2024',
   scale: 1000,
   region: regionOrientale.geometry(),
   fileFormat: 'GeoTIFF',
@@ -143,6 +143,6 @@ Export.image.toDrive({
 
 Export.table.toDrive({
   collection: echantillon,
-  description: 'Correlation_LST_NDVI_Orientale_2024_01',
+  description: 'Correlation_LST_NDVI_Orientale_2004_2024',
   fileFormat: 'CSV'
 });
