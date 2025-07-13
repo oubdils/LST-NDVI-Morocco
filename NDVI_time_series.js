@@ -63,9 +63,15 @@ var chart = ui.Chart.feature.byFeature({
   xProperty: 'year',
   yProperties: ['min', 'mean', 'max']
 }).setChartType('LineChart').setOptions({
-  title: 'NDVI Annuel (Min, mean, Max) | 1984–2024',
-  hAxis: {title: 'year'},
-  vAxis: {title: 'NDVI'},
+  title: 'NDVI Annuel (Min, Mean, Max) | 1984–2024',
+  hAxis: {
+    title: 'Year',
+    format: '####'  // ✅ Empêche l'affichage des virgules dans les années
+  },
+  vAxis: {
+    title: 'NDVI',
+    format: '##.##' // ✅ Affiche NDVI avec deux décimales
+  },
   lineWidth: 2,
   pointSize: 4,
   series: {
